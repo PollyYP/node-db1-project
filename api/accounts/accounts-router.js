@@ -26,7 +26,7 @@ router.post(
   async (req, res, next) => {
     try {
       const data = await db.create(req.body);
-      res.json(data);
+      res.status(201).json(data);
     } catch (err) {
       next(err);
     }

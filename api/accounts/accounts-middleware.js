@@ -12,7 +12,7 @@ exports.checkAccountPayload = (req, res, next) => {
       .status(400)
       .json({ message: "name of account must be a string" });
   }
-  if (name.length < 3 || name.length > 100) {
+  if (name.trim().length < 3 || name.trim().length > 100) {
     return res
       .status(400)
       .json({ message: "name of account must be between 3 and 100" });
@@ -40,6 +40,7 @@ exports.checkAccountNameUnique = async (req, res, next) => {
         });
       }
     });
+    next();
   } catch (err) {
     next(err);
   }
@@ -52,7 +53,7 @@ exports.checkAccountId = async (req, res, next) => {
     const accountID = await db.getById(id);
     if (!accountID) {
       res.status(404).json({
-        message: "Account ID not found",
+        message: "account not found",
       });
     } else {
       req.accountID = accountID;
